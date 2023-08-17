@@ -1,4 +1,6 @@
-import { useState, useRef } from "react";
+import { Colors } from "../utils/Colors";
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,22 +9,18 @@ import {
   Platform,
   ActionSheetIOS,
 } from "react-native";
-import { Colors } from "../../config/Colors";
 
 export default function CustomInputPicker({
   selectedValue,
   onValueChange,
-  fluencyOptions,
+  inputOptions,
   labelPlaceHolder,
 }) {
-  const [showActionSheet, setShowActionSheet] = useState(false);
-
-  const actionSheetRef = useRef();
+  const options = inputOptions.concat(["Cancelar"]);
+  const cancelButtonIndex = inputOptions.length;
+  const [isAndroid, setIsAndroid] = useState(Platform.OS === "android");
 
   const showActionSheetWithOptions = () => {
-    const options = fluencyOptions.concat(["Cancelar"]);
-    const cancelButtonIndex = fluencyOptions.length;
-
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: options,
@@ -37,46 +35,62 @@ export default function CustomInputPicker({
     );
   };
 
-  const handlePickerPress = () => {
-    if (Platform.OS === "ios") {
-      showActionSheetWithOptions();
-    } else {
-      // Fallback for Android or other platforms, use the Picker as before
-      setShowActionSheet(true);
-    }
-  };
+  const renderIOSPicker = () => (
+    <TouchableOpacity
+      style={styles.inputGroup}
+      onPress={showActionSheetWithOptions}
+    >
+      <Text style={styles.input}>
+        {selectedValue ? selectedValue : labelPlaceHolder}
+      </Text>
+    </TouchableOpacity>
+  );
 
-  return (
-    <View style={styles.pickerContainer}>
-      <TouchableOpacity style={styles.itemPicker} onPress={handlePickerPress}>
-        <Text style={styles.inputPicker}>
-          {selectedValue ? selectedValue : labelPlaceHolder}
-        </Text>
-      </TouchableOpacity>
+  const renderAndroidPicker = () => (
+    <View style={styles.inputGroup}>
+      <Picker
+        selectedValue={selectedValue}
+        onValueChange={onValueChange}
+        style={styles.itemPicker}
+      >
+        <Picker.Item
+          style={styles.inputPicker}
+          label={labelPlaceHolder}
+          value=""
+        />
+        {inputOptions.map((option) => (
+          <Picker.Item
+            style={styles.input}
+            label={option}
+            value={option}
+            key={option}
+          />
+        ))}
+      </Picker>
     </View>
   );
+
+  return <View>{isAndroid ? renderAndroidPicker() : renderIOSPicker()}</View>;
 }
 
 const styles = StyleSheet.create({
-  pickerContainer: {
-    backgroundColor: Colors.secondaryColor,
-    paddingHorizontal: 10,
+  inputGroup: {
+    backgroundColor: Colors.lightGray,
+    flexDirection: "row",
+    paddingHorizontal: Platform.OS === "android" ? 10 : 27,
     width: "100%",
-    height: 70,
+    height: 65,
+    borderColor: Colors.slateGray,
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
-  itemPicker: {
-    height: "100%",
-    width: "97%",
-  },
-  inputPicker: {
-    height: "100%",
+  input: {
+    alignItems: "center",
     width: "97%",
     fontSize: 18,
-    color: "#757575",
-    alignItems: "center",
-    justifyContent: "center",
+    color: Colors.slateGray,
   },
+
+  itemPicker: { height: "100%", width: "97%" },
 });

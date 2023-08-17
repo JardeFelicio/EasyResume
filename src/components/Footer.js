@@ -6,36 +6,63 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Colors } from "../../config/Colors";
+import { Colors } from "../utils/Colors";
 import {
   useFonts,
   Montserrat_400Regular,
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
+import { useState } from "react";
+import ModalConfirmation from "./ModalConfirmation";
 
-export default function Footer({ onPressCancel, onPressSave }) {
+export default function Footer({ onPressCancel, onPressSave, isDelete }) {
   const [fontsLoaded] = useFonts({
     Montserrat_400Regular,
     Montserrat_700Bold,
   });
+  const textButtonCancel = isDelete ? "Apagar" : "Cancelar";
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleModalConfirm = () => {
+    onPressCancel();
+    setIsModalVisible(false);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size={"large"} color="#757575" />;
+    return <ActivityIndicator size={"large"} color={Colors.slateGray} />;
   } else {
     return (
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={onPressCancel}>
-          <Text style={styles.cancelButtonText}>Cancelar</Text>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={isDelete ? showModal : onPressCancel}
+        >
+          <Text style={styles.cancelButtonText}>{textButtonCancel}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.saveButton} onPress={onPressSave}>
           <Icon
             style={styles.saveIcon}
             size={22}
             name="check"
-            color={Colors.backgroundColor}
+            color={Colors.white}
           />
           <Text style={styles.saveButtonText}>Salvar</Text>
         </TouchableOpacity>
+        {isModalVisible && (
+          <ModalConfirmation
+            isModalVisible={isModalVisible}
+            onClose={handleModalClose}
+            onConfirm={handleModalConfirm}
+          />
+        )}
       </View>
     );
   }
@@ -47,42 +74,51 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    height: "30%",
+    paddingVertical: 10,
   },
   cancelButton: {
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: Colors.white,
     borderRadius: 30,
     borderWidth: 0.4,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    height: "28%",
+    height: 65,
     width: "40%",
     marginRight: 20,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   cancelButtonText: {
-    color: Colors.primaryColor,
+    color: Colors.deepPurple,
     fontSize: 18,
     fontFamily: "Montserrat_400Regular",
-    borderLeftColor: Colors.backgroundColor,
+    borderLeftColor: Colors.white,
     textAlign: "center",
   },
   saveButton: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Colors.deepPurple,
     borderRadius: 30,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    height: "28%",
+    height: 65,
     width: "40%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   saveIcon: { width: "20%" },
   saveButtonText: {
-    color: Colors.backgroundColor,
+    color: Colors.white,
     fontSize: 18,
     fontFamily: "Montserrat_700Bold",
-    borderLeftWidth: 0.5,
-    borderLeftColor: Colors.backgroundColor,
+    borderLeftColor: Colors.white,
     width: "55%",
     textAlign: "center",
   },

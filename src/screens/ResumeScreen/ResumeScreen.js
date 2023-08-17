@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -6,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
@@ -16,55 +16,9 @@ import {
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../../../config/Colors";
-
-const MENU_ITEMS = [
-  {
-    text: "Dados Pessoais",
-    icon: "account",
-    info: "Forneça informações de contato e endereço",
-  },
-  {
-    text: "Objetivo Profissional",
-    icon: "target",
-    info: "Indique a área que deseja atuar",
-  },
-  {
-    text: "Resumo de Qualificações",
-    icon: "file-document-outline",
-    info: "Destaque suas competências e diferenciais relevantes",
-  },
-  {
-    text: "Formação Educacional",
-    icon: "school",
-    info: "Informe seu grau de formação acadêmica",
-  },
-  {
-    text: "Experiência Profissional",
-    icon: "briefcase",
-    info: "Relate suas experiências de trabalho",
-  },
-  {
-    text: "Cursos",
-    icon: "book-open-variant",
-    info: "Adicione os cursos que você realizou",
-  },
-  {
-    text: "Qualificações Profissionais",
-    icon: "certificate",
-    info: "Acrescente suas certificações e qualificações",
-  },
-  {
-    text: "Idiomas",
-    icon: "earth",
-    info: "Adicione os idiomas que possui conhecimento",
-  },
-  {
-    text: "Informações Adicionais",
-    icon: "information",
-    info: "Destaque outras atividades relevantes",
-  },
-];
+import { Colors } from "../../utils/Colors";
+import { MENU_ITEMS } from "../../utils/MenuItems";
+import Header from "../../components/Header";
 
 const ListItemOption = ({ textItem, iconItem, infoItem }) => {
   const navigation = useNavigation();
@@ -72,7 +26,15 @@ const ListItemOption = ({ textItem, iconItem, infoItem }) => {
     if (textItem === "Idiomas") {
       navigation.navigate("LanguagesScreen");
     } else if (textItem === "Cursos") {
-      navigation.navigate("CousesScreen");
+      navigation.navigate("CoursesScreen");
+    } else if (textItem === "Dados Pessoais") {
+      navigation.navigate("PersonalDataScreen");
+    } else if (textItem === "Objetivo Profissional") {
+      navigation.navigate("ProfessionalObjectiveScreen");
+    } else if (textItem === "Resumo de Qualificações") {
+      navigation.navigate("QualificationsSummaryScreen");
+    } else if (textItem === "Formação Educacional") {
+      navigation.navigate("EducationalBackgroundScreen");
     }
   };
 
@@ -80,7 +42,7 @@ const ListItemOption = ({ textItem, iconItem, infoItem }) => {
     <TouchableOpacity style={styles.listItemContainer} onPress={handlePress}>
       <View style={styles.leftAreaItem}>
         <View style={styles.headerAreaItem}>
-          <Icon name={iconItem} size={20} color={"#000"} />
+          <Icon name={iconItem} size={20} color={Colors.black} />
           <Text style={styles.textItemList}>{textItem}</Text>
         </View>
         <View>
@@ -91,7 +53,7 @@ const ListItemOption = ({ textItem, iconItem, infoItem }) => {
         style={styles.iconArrow}
         name={"chevron-right"}
         size={22}
-        color={"#000"}
+        color={Colors.black}
       />
     </TouchableOpacity>
   );
@@ -107,18 +69,12 @@ export function ResumeScreen() {
   });
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size={"large"} color="#757575" />;
+    return <ActivityIndicator size={"large"} color={Colors.slateGray} />;
   } else {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.headerTitle}>Meu Currículo</Text>
-          <TouchableOpacity
-            style={styles.iconAreaHeader}
-            onPress={() => navigation.replace("HomeScreen")}
-          >
-            <Icon name={"close"} size={22} color={Colors.secondaryColor} />
-          </TouchableOpacity>
+          <Header title={"Meu Currículo"} screenReplace={"HomeScreen"} />
         </View>
         <View style={styles.bodyContainer}>
           <FlatList
@@ -135,7 +91,7 @@ export function ResumeScreen() {
             showsVerticalScrollIndicator={false}
           />
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -144,28 +100,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: Colors.white,
   },
   headerContainer: {
-    marginTop: 60,
-    margin: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "85%",
-  },
-  headerTitle: {
-    fontSize: 26,
-    fontFamily: "Montserrat_800ExtraBold",
-  },
-  iconAreaHeader: {
-    backgroundColor: Colors.primaryColor,
-    borderRadius: 20,
-    width: 60,
-    height: 40,
+    height: 100,
     alignItems: "center",
     justifyContent: "center",
   },
+
   bodyContainer: {
     width: "90%",
     marginTop: "5%",
@@ -177,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     width: "100%",
-    backgroundColor: Colors.secondaryColor,
+    backgroundColor: Colors.lightGray,
     borderRadius: 18,
     padding: 15,
     marginBottom: 10,

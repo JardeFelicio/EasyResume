@@ -1,6 +1,7 @@
 import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { Colors } from "../../utils/Colors";
 
 export function SplashScreen() {
   const navigation = useNavigation();
@@ -30,14 +31,14 @@ export function SplashScreen() {
       <ActivityIndicator
         style={style.iconLoading}
         size={"large"}
-        color="#757575"
+        color={Colors.slateGray}
       />
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", backgroundColor: "#fff" },
+  container: { flex: 1, alignItems: "center", backgroundColor: Colors.white },
   imageLogo: { marginTop: 200, width: 103, height: 100 },
   iconLoading: { margin: 10, paddingTop: 40 },
 });

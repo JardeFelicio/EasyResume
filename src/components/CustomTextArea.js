@@ -1,15 +1,22 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { Colors } from "../utils/Colors";
 
-export default function CustomInput({ value, onChangeText, placeholder }) {
+export default function CustomTextArea({
+  value,
+  onChangeText,
+  placeholder,
+  numberOfLines,
+}) {
   return (
     <View style={styles.inputGroup}>
       <TextInput
         style={styles.input}
+        multiline
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
-        multiline={false}
+        maxLength={250}
+        numberOfLines={5}
         placeholderTextColor={Colors.lightBorderGray}
       />
     </View>
@@ -20,18 +27,19 @@ const styles = StyleSheet.create({
   inputGroup: {
     backgroundColor: Colors.lightGray,
     flexDirection: "row",
-    paddingHorizontal: 27,
     width: "100%",
-    height: 65,
+    height: 210,
     borderColor: Colors.slateGray,
     borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "space-between",
   },
   input: {
     height: "100%",
-    width: "97%",
+    width: "100%",
     fontSize: 18,
     color: Colors.slateGray,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingHorizontal: 27,
+    textAlignVertical: "top",
   },
 });

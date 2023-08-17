@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../../config/Colors";
+import { Colors } from "../utils/Colors";
 import {
   useFonts,
   Montserrat_800ExtraBold,
@@ -20,7 +20,7 @@ export default function Header({ title, screenReplace }) {
   });
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size={"large"} color="#757575" />;
+    return <ActivityIndicator size={"large"} color={Colors.slateGray} />;
   } else {
     return (
       <View style={styles.header}>
@@ -29,7 +29,7 @@ export default function Header({ title, screenReplace }) {
           style={styles.closeIcon}
           onPress={() => navigation.replace(screenReplace)}
         >
-          <Icon name={"close"} size={22} color={Colors.secondaryColor} />
+          <Icon name={"close"} size={22} color={Colors.white} />
         </TouchableOpacity>
       </View>
     );
@@ -38,7 +38,7 @@ export default function Header({ title, screenReplace }) {
 
 const styles = StyleSheet.create({
   header: {
-    marginTop: 60,
+    marginTop: 50,
     margin: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -46,11 +46,12 @@ const styles = StyleSheet.create({
     width: "85%",
   },
   headerTitle: {
-    fontSize: 26,
+    fontSize: 25,
     fontFamily: "Montserrat_800ExtraBold",
+    width: "85%",
   },
   closeIcon: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Colors.deepPurple,
     borderRadius: 20,
     width: 60,
     height: 40,
