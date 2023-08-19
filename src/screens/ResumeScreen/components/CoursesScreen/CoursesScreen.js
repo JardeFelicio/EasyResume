@@ -1,30 +1,30 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import AddButton from "../../../../components/AddButton";
 import ListItemData from "../../../../components/ListItemData";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Api from "../../../../controllers/CoursesController";
 
 export function CoursesScreen({ route }) {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [coursesList, setCoursesList] = useState([]);
 
   async function loadCoursesFromStorage() {
-    const data = await Api.getCourses();
-    return data;
+    try {
+      const data = await Api.getCourses();
+      setCoursesList(data);
+      return;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    loadCoursesFromStorage()
-      .then((data) => {
-        setCoursesList(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
+    loadCoursesFromStorage();
+  }, [isFocused]);
   const handleSubmitAdd = () => {
     navigation.navigate("CoursesScreenAdd");
   };

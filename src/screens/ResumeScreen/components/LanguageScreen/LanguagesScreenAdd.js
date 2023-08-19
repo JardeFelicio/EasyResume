@@ -30,7 +30,7 @@ export function LanguagesScreenAdd({ route }) {
         );
 
         if (createSucess) {
-          navigation.replace("LanguagesScreen");
+          navigation.replace("LanguagesScreen", { loadRefresh: true });
         } else {
           console.log("Erro:", createSucess);
         }
@@ -64,6 +64,7 @@ export function LanguagesScreenAdd({ route }) {
       <Header
         title={selectedItem ? "Editar Idioma" : "Adicionar Idioma"}
         screenReplace={"LanguagesScreen"}
+        goBackScreen={true}
       />
       <View style={styles.inputContainer}>
         <CustomInput

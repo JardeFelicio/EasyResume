@@ -102,6 +102,7 @@ export function EducationalBackgroundScreenAdd({ route }) {
         <Header
           title={selectedItem ? "Editar Formação" : "Adicionar Formação"}
           screenReplace={"EducationalBackgroundScreen"}
+          goBackScreen={true}
         />
       </View>
       <ScrollView style={styles.scroww}>

@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   headerAreaItem: {
-    width: "80%",
+    width: "85%",
     flexDirection: "row",
     margin: "1%",
     marginBottom: 0,
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   textItemList: {
     paddingLeft: 8,
     fontFamily: "Montserrat_700Bold",
-    fontSize: 16,
+    fontSize: 15,
     marginBottom: "1%",
   },
   descTextItem: {

@@ -1,29 +1,31 @@
 import { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import AddButton from "../../../../components/AddButton";
 import ListItemData from "../../../../components/ListItemData";
 import Api from "../../../../controllers/EducationalBackgroundController";
 
-export function EducationalBackgroundScreen({ route }) {
+export function EducationalBackgroundScreen() {
+  const isFocused = useIsFocused();
+
   const navigation = useNavigation();
   const [educationalList, setEducationalList] = useState([]);
 
   async function loadEducationalFromStorage() {
-    const data = await Api.getEducational();
-    return data;
+    try {
+      const data = await Api.getEducational();
+      setEducationalList(data);
+      return;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    loadEducationalFromStorage()
-      .then((data) => {
-        console.log(22, data);
-        setEducationalList(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    loadEducationalFromStorage();
+  }, [isFocused]);
 
   const handleSubmitAdd = () => {
     navigation.navigate("EducationalBackgroundScreenAdd");

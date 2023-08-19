@@ -13,22 +13,25 @@ import {
   Montserrat_800ExtraBold,
 } from "@expo-google-fonts/montserrat";
 
-export default function Header({ title, screenReplace }) {
+export default function Header({ title, screenReplace, goBackScreen }) {
   const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
     Montserrat_800ExtraBold,
   });
-
+  const navigantionScreen = () => {
+    if (goBackScreen) {
+      navigation.goBack(screenReplace);
+    } else {
+      navigation.replace(screenReplace);
+    }
+  };
   if (!fontsLoaded) {
     return <ActivityIndicator size={"large"} color={Colors.slateGray} />;
   } else {
     return (
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{title}</Text>
-        <TouchableOpacity
-          style={styles.closeIcon}
-          onPress={() => navigation.replace(screenReplace)}
-        >
+        <TouchableOpacity style={styles.closeIcon} onPress={navigantionScreen}>
           <Icon name={"close"} size={22} color={Colors.white} />
         </TouchableOpacity>
       </View>

@@ -78,6 +78,7 @@ export function CoursesScreenAdd({ route }) {
       <Header
         title={selectedItem ? "Editar Curso" : "Adicionar Curso"}
         screenReplace={"CoursesScreen"}
+        goBackScreen={true}
       />
       <View style={styles.inputContainer}>
         <CustomInput

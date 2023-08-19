@@ -1,31 +1,51 @@
 import { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import AddButton from "../../../../components/AddButton";
 import ListItemData from "../../../../components/ListItemData";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Api from "../../../../controllers/LanguagesController";
 
-export function LanguagesScreen({ route }) {
-  const loadRefresh = route.params ? route.params.loadRefresh : false;
-
+export function LanguagesScreen() {
+  // Dentro do componente da tela
   const navigation = useNavigation();
+  const navigationState = navigation.getState(); // Obter o estado da navegação
+
+  // Nome da tela que você quer verificar
+  const screenNameToCheck = "LanguagesScreen";
+
+  // Filtrar o histórico de navegação para encontrar instâncias da mesma tela
+  const instancesOfScreen = navigationState.routes.filter(
+    (route) => route.name === screenNameToCheck
+  );
+
+  console.log(
+    `Número de instâncias de ${screenNameToCheck}:`,
+    instancesOfScreen.length
+  );
+
+  const isFocused = useIsFocused();
+
   const [languageList, setLanguageList] = useState([]);
 
-  async function loadLanguagesFromStorage() {
-    const data = await Api.getLanguages();
-    return data;
-  }
+  const loadLanguagesFromStorage = async () => {
+    try {
+      const data = await Api.getLanguages();
+      setLanguageList(data);
+
+      console.log(21, languageList);
+      return;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    loadLanguagesFromStorage()
-      .then((data) => {
-        setLanguageList(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    console.log(29, languageList);
+    console.log(26, new Date());
+    loadLanguagesFromStorage();
+  }, [isFocused]);
 
   const handleSubmitAdd = () => {
     navigation.navigate("LanguagesScreenAdd");
@@ -33,7 +53,7 @@ export function LanguagesScreen({ route }) {
 
   function renderItemList({ item }) {
     const handleSubmitItem = () => {
-      navigation.navigate("LanguagesScreenAdd", { selectedItem: item });
+      navigation.replace("LanguagesScreenAdd", { selectedItem: item });
     };
     return (
       <ListItemData
