@@ -42,8 +42,6 @@ export function LanguagesScreen() {
   };
 
   useEffect(() => {
-    console.log(29, languageList);
-    console.log(26, new Date());
     loadLanguagesFromStorage();
   }, [isFocused]);
 

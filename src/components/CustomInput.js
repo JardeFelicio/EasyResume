@@ -1,5 +1,6 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { Colors } from "../utils/Colors";
+import { useEffect, useState } from "react";
 
 export default function CustomInput({ value, onChangeText, placeholder }) {
   return (
@@ -27,6 +28,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  inputGroupDisabled: {
+    backgroundColor: Colors.lightBorderGray,
+    flexDirection: "row",
+    paddingHorizontal: 27,
+    width: "100%",
+    height: 65,
+    borderColor: Colors.slateGray,
+    borderRadius: 20,
+    alignItems: "center",
   },
   input: {
     height: "100%",

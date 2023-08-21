@@ -35,6 +35,8 @@ const ListItemOption = ({ textItem, iconItem, infoItem }) => {
       navigation.navigate("QualificationsSummaryScreen");
     } else if (textItem === "Formação Educacional") {
       navigation.navigate("EducationalBackgroundScreen");
+    } else if (textItem === "Experiência Profissional") {
+      navigation.navigate("ProfessionalExperienceScreen");
     }
   };
 

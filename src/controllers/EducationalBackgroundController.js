@@ -56,14 +56,14 @@ export default {
 
       // Se o curso já existe, atualiza . Se o curso é novo, adiciona à lista
       if (existingIndex !== -1) {
-        existingCourses[existingIndex].degree = degree;
-        existingCourses[existingIndex].institution = institution;
-        existingCourses[existingIndex].startDate = startDate;
-        existingCourses[existingIndex].endDate = endDate;
-        existingCourses[existingIndex].courseStatus = courseStatus;
-        existingCourses[existingIndex].coursePeriod = coursePeriod;
+        existingEducational[existingIndex].degree = degree;
+        existingEducational[existingIndex].institution = institution;
+        existingEducational[existingIndex].startDate = startDate;
+        existingEducational[existingIndex].endDate = endDate;
+        existingEducational[existingIndex].courseStatus = courseStatus;
+        existingEducational[existingIndex].coursePeriod = coursePeriod;
       } else {
-        existingCourses.push(newEducational);
+        existingEducational.push(newEducational);
       }
 
       // Salva a lista atualizada no AsyncStorage
@@ -83,7 +83,7 @@ export default {
     try {
       // Recupera
       const existingEducational = await getExistingEducational();
-
+      console.log("get", existingEducational);
       return existingEducational;
     } catch (error) {
       console.error("Error loading educational from AsyncStorage:", error);
@@ -94,11 +94,15 @@ export default {
   deleteEducational: async (course) => {
     try {
       //Recupera languages
+      const courseName = course;
+
       const existingEducational = await getExistingEducational();
 
+      console.log("exist", existingEducational);
       const updatedEducational = existingEducational.filter(
-        (course) => course.course !== course
+        (course) => course.course !== courseName
       );
+      console.log("update", updatedEducational);
 
       await AsyncStorage.setItem(
         "educational",

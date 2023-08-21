@@ -9,14 +9,11 @@ import CustomInputPicker from "../../../../components/CustomInputPicker";
 import Footer from "../../../../components/Footer";
 import Api from "../../../../controllers/EducationalBackgroundController";
 
-export function EducationalBackgroundScreenAdd({ route }) {
+export function ProfessionalExperienceScreenAdd({ route }) {
   const navigation = useNavigation();
   const selectedItem = route.params ? route.params.selectedItem : false;
 
-  const [isDisabledCourse, setIsDisabledCourse] = useState(true);
-
   const [course, setCourse] = useState(selectedItem ? selectedItem.course : "");
-
   const [institution, setInstitution] = useState(
     selectedItem ? selectedItem.institution : ""
   );
@@ -30,7 +27,7 @@ export function EducationalBackgroundScreenAdd({ route }) {
   const [selectedStatus, setSelectedStatus] = useState(
     selectedItem ? selectedItem.courseStatus : ""
   );
-  const periodOptions = ["Manhã", "Tarde", "Noite", "Não informarUECE"];
+  const periodOptions = ["Manhã", "Tarde", "Noite"];
   const [selectedPeriod, setSelectedPeriod] = useState(
     selectedItem ? selectedItem.coursePeriod : ""
   );
@@ -71,7 +68,7 @@ export function EducationalBackgroundScreenAdd({ route }) {
         });
 
         if (createSucess) {
-          navigation.replace("EducationalBackgroundScreen");
+          navigation.replace("ProfessionalExperienceScreen");
         } else {
           console.log("Erro:", createSucess);
         }
@@ -84,14 +81,14 @@ export function EducationalBackgroundScreenAdd({ route }) {
   };
 
   const handleSubmitCancel = () => {
-    navigation.replace("EducationalBackgroundScreen");
+    navigation.replace("ProfessionalExperienceScreen");
   };
 
   const handleDelete = async () => {
     try {
       const deleteSucess = await Api.deleteEducational(selectedItem.course);
       if (deleteSucess) {
-        navigation.replace("EducationalBackgroundScreen");
+        navigation.replace("ProfessionalExperienceScreen");
       } else {
         console.log("Erro:", deleteSucess);
       }
@@ -100,50 +97,26 @@ export function EducationalBackgroundScreenAdd({ route }) {
     }
   };
 
-  const handleChangeDegree = (valueDegree) => {
-    setSelectedDegree(valueDegree);
-
-    if (["Ensino Fundamental", "Ensino Médio"].includes(valueDegree)) {
-      setIsDisabledCourse(true);
-      setCourse(valueDegree);
-    } else {
-      setIsDisabledCourse(false);
-      if (["Ensino Fundamental", "Ensino Médio"].includes(course)) {
-        setCourse("");
-      }
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerArea}>
         <Header
-          title={selectedItem ? "Editar Formação" : "Adicionar Formação"}
-          screenReplace={"EducationalBackgroundScreen"}
+          title={selectedItem ? "Editar Experiência" : "Adicionar Experiência"}
+          screenReplace={"ProfessionalExperienceScreen"}
           goBackScreen={true}
         />
       </View>
       <ScrollView style={styles.scroww}>
         <View style={styles.inputContainer}>
-          <CustomInputPicker
-            selectedValue={selectedDegree}
-            onValueChange={(itemValue) => handleChangeDegree(itemValue)}
-            inputOptions={degreeOptions}
-            labelPlaceHolder={"Selecione o nivel"}
+          <CustomInput
+            value={course}
+            onChangeText={setCourse}
+            placeholder={"Titulo"}
           />
-          {!isDisabledCourse && (
-            <CustomInput
-              value={course}
-              onChangeText={setCourse}
-              placeholder={"Nome do curso"}
-              isEnabledInput={isDisabledCourse}
-              changeDisbledInput={true}
-            />
-          )}
           <CustomInput
             value={institution}
             onChangeText={setInstitution}
-            placeholder={"Instituição"}
+            placeholder={"Nome da empresa"}
           />
           <DateInput
             value={startDate}
@@ -154,6 +127,12 @@ export function EducationalBackgroundScreenAdd({ route }) {
             value={endDate}
             onChangeDate={setEndDate}
             label={"Data de término (ou prevista)"}
+          />
+          <CustomInputPicker
+            selectedValue={selectedDegree}
+            onValueChange={(itemValue) => setSelectedDegree(itemValue)}
+            inputOptions={degreeOptions}
+            labelPlaceHolder={"Selecione o nivel"}
           />
           <CustomInputPicker
             selectedValue={selectedStatus}

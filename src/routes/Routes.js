@@ -12,6 +12,8 @@ import { ProfessionalObjectiveScreen } from "../screens/ResumeScreen/components/
 import { QualificationsSummaryScreen } from "../screens/ResumeScreen/components/QualificationsSummaryScreen";
 import { EducationalBackgroundScreen } from "../screens/ResumeScreen/components/EducationalBackgroundScreen/EducationalBackgroundScreen";
 import { EducationalBackgroundScreenAdd } from "../screens/ResumeScreen/components/EducationalBackgroundScreen/EducationalBackgroundScreenAdd";
+import { ProfessionalExperienceScreen } from "../screens/ResumeScreen/components/ProfessionalExperienceScreen/ProfessionalExperienceScreen";
+import { ProfessionalExperienceScreenAdd } from "../screens/ResumeScreen/components/ProfessionalExperienceScreen/ProfessionalExperienceScreenAdd";
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +79,16 @@ export function Routes() {
         <Stack.Screen
           name="EducationalBackgroundScreenAdd"
           component={EducationalBackgroundScreenAdd}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProfessionalExperienceScreen"
+          component={ProfessionalExperienceScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProfessionalExperienceScreenAdd"
+          component={ProfessionalExperienceScreenAdd}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -5,33 +5,18 @@ import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import AddButton from "../../../../components/AddButton";
 import ListItemData from "../../../../components/ListItemData";
-import Api from "../../../../controllers/EducationalBackgroundController";
+import Api from "../../../../controllers/ProfessionalExperienceController";
 
-export function EducationalBackgroundScreen() {
-  // Dentro do componente da tela
-  const navigation = useNavigation();
-  const navigationState = navigation.getState(); // Obter o estado da navegação
-
-  // Nome da tela que você quer verificar
-  const screenNameToCheck = "EducationalBackgroundScreen";
-
-  // Filtrar o histórico de navegação para encontrar instâncias da mesma tela
-  const instancesOfScreen = navigationState.routes.filter(
-    (route) => route.name === screenNameToCheck
-  );
-
-  console.log(
-    `Número de instâncias de ${screenNameToCheck}:`,
-    instancesOfScreen.length
-  );
+export function ProfessionalExperienceScreen() {
   const isFocused = useIsFocused();
 
-  const [educationalList, setEducationalList] = useState([]);
+  const navigation = useNavigation();
+  const [experienceList, setExperienceList] = useState([]);
 
-  async function loadEducationalFromStorage() {
+  async function loadExperienceFromStorage() {
     try {
-      const data = await Api.getEducational();
-      setEducationalList(data);
+      const data = await Api.getExperience();
+      setExperienceList(data);
       return;
     } catch (error) {
       console.log(error);
@@ -39,16 +24,16 @@ export function EducationalBackgroundScreen() {
   }
 
   useEffect(() => {
-    loadEducationalFromStorage();
+    loadExperienceFromStorage();
   }, [isFocused]);
 
   const handleSubmitAdd = () => {
-    navigation.navigate("EducationalBackgroundScreenAdd");
+    navigation.navigate("ProfessionalExperienceScreenAdd");
   };
 
   function renderItemList({ item }) {
     const handleSubmitItem = () => {
-      navigation.navigate("EducationalBackgroundScreenAdd", {
+      navigation.navigate("ProfessionalExperienceScreenAdd", {
         selectedItem: item,
       });
     };
@@ -63,10 +48,13 @@ export function EducationalBackgroundScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={"Formação Educacional"} screenReplace={"ResumeScreen"} />
+      <Header
+        title={"Experiência Profissional"}
+        screenReplace={"ResumeScreen"}
+      />
       <View style={styles.bodyContainer}>
         <FlatList
-          data={educationalList}
+          data={experienceList}
           renderItem={renderItemList}
           keyExtractor={(item) => item.course}
           contentContainerStyle={styles.flatListBody}
