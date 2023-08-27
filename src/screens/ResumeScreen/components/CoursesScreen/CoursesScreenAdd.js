@@ -44,7 +44,7 @@ export function CoursesScreenAdd({ route }) {
         });
 
         if (createSucess) {
-          navigation.replace("CoursesScreen");
+          navigation.goBack("CoursesScreen");
         } else {
           console.log("Erro:", createSucess);
         }
@@ -57,14 +57,14 @@ export function CoursesScreenAdd({ route }) {
   };
 
   const handleSubmitCancel = () => {
-    navigation.replace("CoursesScreen");
+    navigation.goBack("CoursesScreen");
   };
 
   const handleDelete = async () => {
     try {
       const deleteSucess = await Api.deleteCourse(selectedItem.courseName);
       if (deleteSucess) {
-        navigation.replace("CoursesScreen");
+        navigation.goBack("CoursesScreen");
       } else {
         console.log("Erro:", deleteSucess);
       }

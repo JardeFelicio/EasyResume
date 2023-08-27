@@ -21,8 +21,6 @@ const getExistingEducational = async () => {
 export default {
   createEducational: async (educational) => {
     try {
-      console.log(educational);
-
       const {
         degree,
         course,
@@ -83,7 +81,7 @@ export default {
     try {
       // Recupera
       const existingEducational = await getExistingEducational();
-      console.log("get", existingEducational);
+
       return existingEducational;
     } catch (error) {
       console.error("Error loading educational from AsyncStorage:", error);
@@ -98,11 +96,9 @@ export default {
 
       const existingEducational = await getExistingEducational();
 
-      console.log("exist", existingEducational);
       const updatedEducational = existingEducational.filter(
         (course) => course.course !== courseName
       );
-      console.log("update", updatedEducational);
 
       await AsyncStorage.setItem(
         "educational",

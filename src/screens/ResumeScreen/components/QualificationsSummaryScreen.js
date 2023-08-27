@@ -21,7 +21,8 @@ export function QualificationsSummaryScreen() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async () => {
-    if (qualificationsSummary !== "") {
+    if (qualificationsSummary !== "" && qualificationsSummary) {
+      console.log(qualificationsSummary);
       try {
         const createSucess = await Api.createQualificationsSummary(
           qualificationsSummary
@@ -48,17 +49,18 @@ export function QualificationsSummaryScreen() {
   };
 
   async function loadOjectiveFromStorage() {
-    const data = await Api.getQualificationsSummary();
-    return data;
+    try {
+      const data = await Api.getQualificationsSummary();
+      if (data != null) {
+        setQualificationsSummary(data);
+      }
+      return;
+    } catch (error) {
+      console.log(error);
+    }
   }
   useEffect(() => {
-    loadOjectiveFromStorage()
-      .then((data) => {
-        if (data != "") {
-          setQualificationsSummary(data);
-        }
-      })
-      .catch((error) => console.log(error));
+    loadOjectiveFromStorage().t;
   }, []);
 
   return (

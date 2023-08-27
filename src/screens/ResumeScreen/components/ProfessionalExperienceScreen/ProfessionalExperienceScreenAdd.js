@@ -2,78 +2,92 @@ import { useState } from "react";
 import { SafeAreaView, StyleSheet, View, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
+
 import Header from "../../../../components/Header";
 import CustomInput from "../../../../components/CustomInput";
+import CustomTextArea from "../../../../components/CustomTextArea";
 import DateInput from "../../../../components/DateInput";
+import CustomCheckBox from "../../../../components/CustomCheckBox";
 import CustomInputPicker from "../../../../components/CustomInputPicker";
 import Footer from "../../../../components/Footer";
-import Api from "../../../../controllers/EducationalBackgroundController";
+
+import Api from "../../../../controllers/ProfessionalExperienceController";
 
 export function ProfessionalExperienceScreenAdd({ route }) {
   const navigation = useNavigation();
   const selectedItem = route.params ? route.params.selectedItem : false;
 
-  const [course, setCourse] = useState(selectedItem ? selectedItem.course : "");
-  const [institution, setInstitution] = useState(
-    selectedItem ? selectedItem.institution : ""
+  const [title, setTitle] = useState(selectedItem ? selectedItem.title : "");
+  const [company, setCompany] = useState(
+    selectedItem ? selectedItem.company : ""
+  );
+
+  const employmentTypeOptions = [
+    "Tempo integral",
+    "Meio período",
+    "Autônomo",
+    "Freelance",
+    "Temporário",
+    "Estágio",
+    "Aprendiz",
+    "Trainee",
+    "Terceirizado",
+  ];
+  const [selectedEmploymentType, setSelectedemploymentType] = useState(
+    selectedItem ? selectedItem.employmentType : ""
+  );
+
+  const [locality, setLocality] = useState(
+    selectedItem ? selectedItem.locality : ""
   );
   const [startDate, setStartDate] = useState(
     selectedItem.startDate ? new Date(selectedItem.startDate) : new Date()
   );
+
+  const [currentlyWork, setCurrentlyWork] = useState(
+    selectedItem ? selectedItem.currentlyWork : false
+  );
+
   const [endDate, setEndDate] = useState(
     selectedItem ? new Date(selectedItem.endDate) : new Date()
   );
-  const statusOptions = ["Cursando", "Concluído", "Incompleto"];
-  const [selectedStatus, setSelectedStatus] = useState(
-    selectedItem ? selectedItem.courseStatus : ""
+  const workFormatOptions = ["Presencial", "Híbrido", "Remoto"];
+  const [selectedWorkFormat, setSelectedWorkFormat] = useState(
+    selectedItem ? selectedItem.workFormat : ""
   );
-  const periodOptions = ["Manhã", "Tarde", "Noite"];
-  const [selectedPeriod, setSelectedPeriod] = useState(
-    selectedItem ? selectedItem.coursePeriod : ""
-  );
-  const degreeOptions = [
-    "Ensino Fundamental",
-    "Ensino Médio",
-    "Graduação",
-    "Pós-Graduação",
-    "Técnico",
-    "Especialização",
-    "MBA",
-    "Mestrado",
-    "Doutorado",
-    "Pós-Doutorado",
-  ];
-  const [selectedDegree, setSelectedDegree] = useState(
-    selectedItem ? selectedItem.degree : ""
+  const [description, setDescription] = useState(
+    selectedItem ? selectedItem.description : ""
   );
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async () => {
     if (
-      course !== "" &&
-      institution !== "" &&
-      endDate !== "" &&
-      selectedStatus !== ""
+      title !== "" &&
+      company !== "" &&
+      startDate !== "" &&
+      (endDate !== "" || currentlyWork !== true)
     ) {
       try {
-        const createSucess = await Api.createEducational({
-          degree: selectedDegree,
-          course,
-          institution,
+        const createSucess = await Api.createExperience({
+          title,
+          company,
+          employmentType: selectedEmploymentType,
+          locality,
           startDate,
           endDate,
-          courseStatus: selectedStatus,
-          coursePeriod: selectedPeriod,
+          currentlyWork,
+          workFormat: selectedWorkFormat,
+          description,
         });
 
         if (createSucess) {
-          navigation.replace("ProfessionalExperienceScreen");
+          navigation.goBack("ProfessionalExperienceScreen");
         } else {
           console.log("Erro:", createSucess);
         }
       } catch (error) {
-        console.error("Error saving course to AsyncStorage:", error);
+        console.error("Error saving experience to AsyncStorage:", error);
       }
     } else {
       setErrorMessage("Preencha todos os campos");
@@ -81,19 +95,22 @@ export function ProfessionalExperienceScreenAdd({ route }) {
   };
 
   const handleSubmitCancel = () => {
-    navigation.replace("ProfessionalExperienceScreen");
+    navigation.goBack("ProfessionalExperienceScreen");
   };
 
   const handleDelete = async () => {
     try {
-      const deleteSucess = await Api.deleteEducational(selectedItem.course);
+      const deleteSucess = await Api.deleteExperience({
+        title: selectedItem.title,
+        company: selectedItem.company,
+      });
       if (deleteSucess) {
-        navigation.replace("ProfessionalExperienceScreen");
+        navigation.goBack("ProfessionalExperienceScreen");
       } else {
         console.log("Erro:", deleteSucess);
       }
     } catch (error) {
-      console.error("Error deleting educational:", error);
+      console.error("Error deleting experience:", error);
     }
   };
 
@@ -109,42 +126,55 @@ export function ProfessionalExperienceScreenAdd({ route }) {
       <ScrollView style={styles.scroww}>
         <View style={styles.inputContainer}>
           <CustomInput
-            value={course}
-            onChangeText={setCourse}
+            value={title}
+            onChangeText={setTitle}
             placeholder={"Titulo"}
           />
           <CustomInput
-            value={institution}
-            onChangeText={setInstitution}
+            value={company}
+            onChangeText={setCompany}
             placeholder={"Nome da empresa"}
           />
+
+          <CustomInputPicker
+            selectedValue={selectedEmploymentType}
+            onValueChange={(itemValue) => setSelectedemploymentType(itemValue)}
+            inputOptions={employmentTypeOptions}
+            labelPlaceHolder={"Selecione o tipo de emprego"}
+          />
+          <CustomInput
+            value={locality}
+            onChangeText={setLocality}
+            placeholder={"Localidade"}
+          />
+          <CustomInputPicker
+            selectedValue={selectedWorkFormat}
+            onValueChange={(itemValue) => setSelectedWorkFormat(itemValue)}
+            inputOptions={workFormatOptions}
+            labelPlaceHolder={"Selecione o tipo de emprego"}
+          />
+
           <DateInput
             value={startDate}
             onChangeDate={setStartDate}
             label={"Data de inicio"}
           />
-          <DateInput
-            value={endDate}
-            onChangeDate={setEndDate}
-            label={"Data de término (ou prevista)"}
+          <CustomCheckBox
+            value={currentlyWork}
+            onChecked={setCurrentlyWork}
+            placeholder={"Trabalho atualmente neste cargo"}
           />
-          <CustomInputPicker
-            selectedValue={selectedDegree}
-            onValueChange={(itemValue) => setSelectedDegree(itemValue)}
-            inputOptions={degreeOptions}
-            labelPlaceHolder={"Selecione o nivel"}
-          />
-          <CustomInputPicker
-            selectedValue={selectedStatus}
-            onValueChange={(itemValue) => setSelectedStatus(itemValue)}
-            inputOptions={statusOptions}
-            labelPlaceHolder={"Selecione o status"}
-          />
-          <CustomInputPicker
-            selectedValue={selectedPeriod}
-            onValueChange={(itemValue) => setSelectedPeriod(itemValue)}
-            inputOptions={periodOptions}
-            labelPlaceHolder={"Selecione o período"}
+          {!currentlyWork && (
+            <DateInput
+              value={endDate}
+              onChangeDate={setEndDate}
+              label={"Data de término"}
+            />
+          )}
+          <CustomTextArea
+            value={description}
+            onChangeText={setDescription}
+            placeholder={"Descrição"}
           />
         </View>
       </ScrollView>

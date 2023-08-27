@@ -61,7 +61,7 @@ export default {
     try {
       // Recupera languages
       const existingLanguages = await getExistingLanguages();
-      console.log(64, existingLanguages);
+
       return existingLanguages;
     } catch (error) {
       console.error("Error loading languages from AsyncStorage:", error);

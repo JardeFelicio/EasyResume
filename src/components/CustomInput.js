@@ -2,7 +2,13 @@ import { View, TextInput, StyleSheet } from "react-native";
 import { Colors } from "../utils/Colors";
 import { useEffect, useState } from "react";
 
-export default function CustomInput({ value, onChangeText, placeholder }) {
+export default function CustomInput({
+  value,
+  onChangeText,
+  placeholder,
+  onBlur,
+  typeNumber,
+}) {
   return (
     <View style={styles.inputGroup}>
       <TextInput
@@ -12,6 +18,8 @@ export default function CustomInput({ value, onChangeText, placeholder }) {
         onChangeText={onChangeText}
         multiline={false}
         placeholderTextColor={Colors.lightBorderGray}
+        onBlur={onBlur ? onBlur : undefined}
+        keyboardType={typeNumber ? "numeric" : undefined}
       />
     </View>
   );

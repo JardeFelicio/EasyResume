@@ -37,6 +37,10 @@ const ListItemOption = ({ textItem, iconItem, infoItem }) => {
       navigation.navigate("EducationalBackgroundScreen");
     } else if (textItem === "Experiência Profissional") {
       navigation.navigate("ProfessionalExperienceScreen");
+    } else if (textItem === "Qualificações Profissionais") {
+      navigation.navigate("ProfessionalQualificationsScreen");
+    } else if (textItem === "Informações Adicionais") {
+      navigation.navigate("AdditionalInformationScreen");
     }
   };
 
@@ -71,7 +75,11 @@ export function ResumeScreen() {
   });
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size={"large"} color={Colors.slateGray} />;
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size={"large"} color={Colors.slateGray} />
+      </View>
+    );
   } else {
     return (
       <SafeAreaView style={styles.container}>

@@ -11,6 +11,7 @@ const getExistingExperience = async () => {
       ? JSON.parse(existingExperiencelJSON)
       : [];
 
+    console.log("Controller: ", 14, existingExperience);
     return existingExperience;
   } catch (error) {
     console.log("Error: ", error);
@@ -21,27 +22,33 @@ const getExistingExperience = async () => {
 export default {
   createExperience: async (experience) => {
     try {
+      console.log("Controller create: ", 25, experience);
       const {
-        degree,
-        course,
-        institution,
+        title,
+        company,
+        employmentType,
+        locality,
         startDate,
         endDate,
-        courseStatus,
-        coursePeriod,
+        currentlyWork,
+        workFormat,
+        description,
       } = experience;
 
-      const courseFormat = await FormatString(course);
+      const titleFormat = await FormatString(title);
+      const companyFormat = await FormatString(company);
 
       // Cria o objeto
       const newExperience = {
-        degree,
-        course: courseFormat,
-        institution,
+        title: titleFormat,
+        company: companyFormat,
+        employmentType,
+        locality,
         startDate,
         endDate,
-        courseStatus,
-        coursePeriod,
+        currentlyWork,
+        workFormat,
+        description,
       };
 
       // Recupera os dados
@@ -49,17 +56,21 @@ export default {
 
       // Verifica se o curso já existe na lista
       const existingIndex = existingExperience.findIndex(
-        (item) => item.course === courseFormat
+        (item) => item.title === title && item.company === company
       );
 
-      // Se o curso já existe, atualiza . Se o curso é novo, adiciona à lista
+      // Se já existe, atualiza . Se é novo, adiciona à lista
       if (existingIndex !== -1) {
-        existingExperience[existingIndex].degree = degree;
-        existingExperience[existingIndex].institution = institution;
+        existingExperience[existingIndex].title = titleFormat;
+        existingExperience[existingIndex].company = companyFormat;
+        existingExperience[existingIndex].employmentType = employmentType;
+        existingExperience[existingIndex].locality = locality;
         existingExperience[existingIndex].startDate = startDate;
         existingExperience[existingIndex].endDate = endDate;
-        existingExperience[existingIndex].courseStatus = courseStatus;
-        existingExperience[existingIndex].coursePeriod = coursePeriod;
+        existingExperience[existingIndex].currentlyWork = currentlyWork;
+        existingExperience[existingIndex].workFormat = workFormat;
+        existingExperience[existingIndex].description = description;
+        od;
       } else {
         existingExperience.push(newExperience);
       }
@@ -92,16 +103,18 @@ export default {
   deleteExperience: async (experience) => {
     try {
       //Recupera languages
-      const courseName = experience;
+      const { title, company } = experience;
+      console.log("Controller delete: ", 107, experience);
 
       const existingExperience = await getExistingExperience();
 
       const updatedExperience = existingExperience.filter(
-        (course) => course.course !== courseName
+        (experience) =>
+          experience.title !== title && experience.company !== company
       );
 
       await AsyncStorage.setItem(
-        "educational",
+        "experience",
         JSON.stringify(updatedExperience)
       );
       return true;

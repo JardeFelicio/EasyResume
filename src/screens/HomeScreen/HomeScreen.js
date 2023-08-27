@@ -23,7 +23,8 @@ const ListItemMenu = ({ textItem }) => {
     if (textItem === "Curriculo") {
       navigation.navigate("ResumeScreen");
     } else if (textItem === "Carta de apresentação") {
-      navigation.navigate("LetterScreen");
+      //navigation.navigate("LetterScreen");
+      return;
     }
   };
   return (

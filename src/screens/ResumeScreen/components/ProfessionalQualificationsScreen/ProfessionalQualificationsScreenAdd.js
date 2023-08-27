@@ -4,37 +4,40 @@ import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import CustomInput from "../../../../components/CustomInput";
-import Footer from "../../../../components/Footer";
-import CustomInputPicker from "../../../../components/CustomInputPicker";
-import Api from "../../../../controllers/LanguagesController";
+import CustomTextArea from "../../../../components/CustomTextArea";
 
-export function LanguagesScreenAdd({ route }) {
+import Footer from "../../../../components/Footer";
+import Api from "../../../../controllers/ProfessionalQualificationsController";
+
+export function ProfessionalQualificationsScreenAdd({ route }) {
   const navigation = useNavigation();
+
   const selectedItem = route.params ? route.params.selectedItem : false;
-  const [language, setLanguage] = useState(
-    selectedItem ? selectedItem.languageName : ""
+
+  const [qualificationTitle, setQualificationTitle] = useState(
+    selectedItem ? selectedItem.title : ""
   );
-  const [selectedFluency, setSelectedFluency] = useState(
-    selectedItem ? selectedItem.fluencyLevel : ""
+  const [qualificationDescription, setQualificationDescription] = useState(
+    selectedItem ? selectedItem.description : ""
   );
+
   const [errorMessage, setErrorMessage] = useState("");
-  const fluencyOptions = ["Básico", "Intermediário", "Avançado", "Fluente"];
 
   const handleSubmit = async () => {
-    if (language !== "" && selectedFluency !== "") {
+    if (qualificationTitle !== "" && qualificationDescription !== "") {
       try {
-        const createSucess = await Api.createLanguage(
-          language,
-          selectedFluency
-        );
+        const createSucess = await Api.createQualification({
+          title: qualificationTitle,
+          description: qualificationDescription,
+        });
 
         if (createSucess) {
-          navigation.goBack("LanguagesScreen");
+          navigation.goBack("ProfessionalQualificationsScreen");
         } else {
           console.log("Erro:", createSucess);
         }
       } catch (error) {
-        console.error("Error saving language to AsyncStorage:", error);
+        console.error("Error saving qualification to AsyncStorage:", error);
       }
     } else {
       setErrorMessage("Preencha todos os campos");
@@ -42,40 +45,39 @@ export function LanguagesScreenAdd({ route }) {
   };
 
   const handleSubmitCancel = () => {
-    navigation.goBack("LanguagesScreen");
+    navigation.goBack("ProfessionalQualificationsScreen");
   };
 
   const handleDelete = async () => {
     try {
-      const deleteSucess = await Api.deleteLanguage(selectedItem.languageName);
+      const deleteSucess = await Api.deleteQualification(selectedItem.title);
       if (deleteSucess) {
-        navigation.goBack("LanguagesScreen");
+        navigation.goBack("ProfessionalQualificationsScreen");
       } else {
         console.log("Erro:", deleteSucess);
       }
     } catch (error) {
-      console.error("Error deleting language:", error);
+      console.error("Error deleting qualification:", error);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title={selectedItem ? "Editar Idioma" : "Adicionar Idioma"}
-        screenReplace={"LanguagesScreen"}
+        title={selectedItem ? "Editar Qualificação" : "Adicionar Qualificação"}
+        screenReplace={"ProfessionalQualificationsScreen"}
         goBackScreen={true}
       />
       <View style={styles.inputContainer}>
         <CustomInput
-          value={language}
-          onChangeText={setLanguage}
-          placeholder={"Idioma"}
+          value={qualificationTitle}
+          onChangeText={setQualificationTitle}
+          placeholder={"Titulo da atividade"}
         />
-        <CustomInputPicker
-          selectedValue={selectedFluency}
-          onValueChange={(itemValue) => setSelectedFluency(itemValue)}
-          inputOptions={fluencyOptions}
-          labelPlaceHolder={"Selecione o nivel"}
+        <CustomTextArea
+          value={qualificationDescription}
+          onChangeText={setQualificationDescription}
+          placeholder={"Descrição da atividade"}
         />
       </View>
       <View style={styles.footer}>

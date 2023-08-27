@@ -1,12 +1,7 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { Colors } from "../utils/Colors";
 
-export default function CustomTextArea({
-  value,
-  onChangeText,
-  placeholder,
-  numberOfLines,
-}) {
+export default function CustomTextArea({ value, onChangeText, placeholder }) {
   return (
     <View style={styles.inputGroup}>
       <TextInput

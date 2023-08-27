@@ -44,17 +44,18 @@ export function ProfessionalObjectiveScreen() {
   };
 
   async function loadOjectiveFromStorage() {
-    const data = await Api.getObjective();
-    return data;
+    try {
+      const data = await Api.getObjective();
+      if (data != null) {
+        setObjective(data);
+      }
+      return;
+    } catch (error) {
+      console.log(error);
+    }
   }
   useEffect(() => {
-    loadOjectiveFromStorage()
-      .then((data) => {
-        if (data != "") {
-          setObjective(data);
-        }
-      })
-      .catch((error) => console.log(error));
+    loadOjectiveFromStorage();
   }, []);
 
   return (

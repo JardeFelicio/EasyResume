@@ -30,7 +30,7 @@ export function EducationalBackgroundScreenAdd({ route }) {
   const [selectedStatus, setSelectedStatus] = useState(
     selectedItem ? selectedItem.courseStatus : ""
   );
-  const periodOptions = ["Manhã", "Tarde", "Noite", "Não informarUECE"];
+  const periodOptions = ["Manhã", "Tarde", "Noite", "Não informar"];
   const [selectedPeriod, setSelectedPeriod] = useState(
     selectedItem ? selectedItem.coursePeriod : ""
   );
@@ -71,7 +71,7 @@ export function EducationalBackgroundScreenAdd({ route }) {
         });
 
         if (createSucess) {
-          navigation.replace("EducationalBackgroundScreen");
+          navigation.goBack("EducationalBackgroundScreen");
         } else {
           console.log("Erro:", createSucess);
         }
@@ -84,14 +84,14 @@ export function EducationalBackgroundScreenAdd({ route }) {
   };
 
   const handleSubmitCancel = () => {
-    navigation.replace("EducationalBackgroundScreen");
+    navigation.goBack("EducationalBackgroundScreen");
   };
 
   const handleDelete = async () => {
     try {
       const deleteSucess = await Api.deleteEducational(selectedItem.course);
       if (deleteSucess) {
-        navigation.replace("EducationalBackgroundScreen");
+        navigation.goBack("EducationalBackgroundScreen");
       } else {
         console.log("Erro:", deleteSucess);
       }

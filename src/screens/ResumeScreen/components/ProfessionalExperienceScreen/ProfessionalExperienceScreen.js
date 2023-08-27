@@ -39,8 +39,8 @@ export function ProfessionalExperienceScreen() {
     };
     return (
       <ListItemData
-        textItem={item.course}
-        infoItem={item.institution}
+        textItem={item.title}
+        infoItem={item.company}
         onPress={handleSubmitItem}
       />
     );
@@ -56,7 +56,7 @@ export function ProfessionalExperienceScreen() {
         <FlatList
           data={experienceList}
           renderItem={renderItemList}
-          keyExtractor={(item) => item.course}
+          keyExtractor={(item) => item.startDate}
           contentContainerStyle={styles.flatListBody}
           showsVerticalScrollIndicator={false}
         />

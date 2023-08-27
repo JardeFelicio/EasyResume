@@ -4,37 +4,37 @@ import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import CustomInput from "../../../../components/CustomInput";
-import Footer from "../../../../components/Footer";
-import CustomInputPicker from "../../../../components/CustomInputPicker";
-import Api from "../../../../controllers/LanguagesController";
+import CustomTextArea from "../../../../components/CustomTextArea";
 
-export function LanguagesScreenAdd({ route }) {
+import Footer from "../../../../components/Footer";
+import Api from "../../../../controllers/AdditionalInformationController";
+
+export function AdditionalInformationScreenAdd({ route }) {
   const navigation = useNavigation();
+
   const selectedItem = route.params ? route.params.selectedItem : false;
-  const [language, setLanguage] = useState(
-    selectedItem ? selectedItem.languageName : ""
+
+  const [information, setInformation] = useState(
+    selectedItem ? selectedItem.information : ""
   );
-  const [selectedFluency, setSelectedFluency] = useState(
-    selectedItem ? selectedItem.fluencyLevel : ""
-  );
+
   const [errorMessage, setErrorMessage] = useState("");
-  const fluencyOptions = ["Básico", "Intermediário", "Avançado", "Fluente"];
 
   const handleSubmit = async () => {
-    if (language !== "" && selectedFluency !== "") {
+    if (information !== "") {
       try {
-        const createSucess = await Api.createLanguage(
-          language,
-          selectedFluency
-        );
+        const createSucess = await Api.createAdditional(information);
 
         if (createSucess) {
-          navigation.goBack("LanguagesScreen");
+          navigation.goBack("AdditionalInformationScreen");
         } else {
           console.log("Erro:", createSucess);
         }
       } catch (error) {
-        console.error("Error saving language to AsyncStorage:", error);
+        console.error(
+          "Error saving additional information to AsyncStorage:",
+          error
+        );
       }
     } else {
       setErrorMessage("Preencha todos os campos");
@@ -42,40 +42,34 @@ export function LanguagesScreenAdd({ route }) {
   };
 
   const handleSubmitCancel = () => {
-    navigation.goBack("LanguagesScreen");
+    navigation.goBack("AdditionalInformationScreen");
   };
 
   const handleDelete = async () => {
     try {
-      const deleteSucess = await Api.deleteLanguage(selectedItem.languageName);
+      const deleteSucess = await Api.deleteAdditional(selectedItem.information);
       if (deleteSucess) {
-        navigation.goBack("LanguagesScreen");
+        navigation.goBack("AdditionalInformationScreen");
       } else {
         console.log("Erro:", deleteSucess);
       }
     } catch (error) {
-      console.error("Error deleting language:", error);
+      console.error("Error deleting additional information:", error);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title={selectedItem ? "Editar Idioma" : "Adicionar Idioma"}
-        screenReplace={"LanguagesScreen"}
+        title={"Informação Adicional"}
+        screenReplace={"AdditionalInformationScreen"}
         goBackScreen={true}
       />
       <View style={styles.inputContainer}>
-        <CustomInput
-          value={language}
-          onChangeText={setLanguage}
-          placeholder={"Idioma"}
-        />
-        <CustomInputPicker
-          selectedValue={selectedFluency}
-          onValueChange={(itemValue) => setSelectedFluency(itemValue)}
-          inputOptions={fluencyOptions}
-          labelPlaceHolder={"Selecione o nivel"}
+        <CustomTextArea
+          value={information}
+          onChangeText={setInformation}
+          placeholder={"Ex: Disponibilidade para inicio imediato"}
         />
       </View>
       <View style={styles.footer}>

@@ -1,59 +1,44 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, View, FlatList } from "react-native";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { Colors } from "../../../../utils/Colors";
 import Header from "../../../../components/Header";
 import AddButton from "../../../../components/AddButton";
 import ListItemData from "../../../../components/ListItemData";
-import Api from "../../../../controllers/LanguagesController";
+import Api from "../../../../controllers/ProfessionalQualificationsController";
 
-export function LanguagesScreen() {
-  const navigation = useNavigation();
-  const navigationState = navigation.getState(); // Obter o estado da navegação
-
-  // Nome da tela que você quer verificar
-  const screenNameToCheck = "LanguagesScreen";
-
-  // Filtrar o histórico de navegação para encontrar instâncias da mesma tela
-  const instancesOfScreen = navigationState.routes.filter(
-    (route) => route.name === screenNameToCheck
-  );
-
-  console.log(
-    `Número de instâncias de ${screenNameToCheck}:`,
-    instancesOfScreen.length
-  );
-
+export function ProfessionalQualificationsScreen() {
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
+  const [coursesList, setCoursesList] = useState([]);
 
-  const [languageList, setLanguageList] = useState([]);
-
-  const loadLanguagesFromStorage = async () => {
+  async function loadCoursesFromStorage() {
     try {
-      const data = await Api.getLanguages();
-      setLanguageList(data);
+      const data = await Api.getQualifications();
+      setCoursesList(data);
       return;
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   useEffect(() => {
-    loadLanguagesFromStorage();
+    loadCoursesFromStorage();
   }, [isFocused]);
-
   const handleSubmitAdd = () => {
-    navigation.navigate("LanguagesScreenAdd");
+    navigation.navigate("ProfessionalQualificationsScreenAdd");
   };
 
   function renderItemList({ item }) {
     const handleSubmitItem = () => {
-      navigation.navigate("LanguagesScreenAdd", { selectedItem: item });
+      navigation.navigate("ProfessionalQualificationsScreenAdd", {
+        selectedItem: item,
+      });
     };
     return (
       <ListItemData
-        textItem={item.languageName}
-        infoItem={item.fluencyLevel}
+        textItem={item.title}
+        infoItem={item.description.substring(0, 25) + "..."}
         onPress={handleSubmitItem}
       />
     );
@@ -61,12 +46,12 @@ export function LanguagesScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={"Idiomas"} screenReplace={"ResumeScreen"} />
+      <Header title={"Qualificações"} screenReplace={"ResumeScreen"} />
       <View style={styles.bodyContainer}>
         <FlatList
-          data={languageList}
+          data={coursesList}
           renderItem={renderItemList}
-          keyExtractor={(item) => item.languageName}
+          keyExtractor={(item) => item.qualificationTitle}
           contentContainerStyle={styles.flatListBody}
           showsVerticalScrollIndicator={false}
         />
