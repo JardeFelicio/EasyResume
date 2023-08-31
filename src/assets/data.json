@@ -1,0 +1,83 @@
+{
+    "additional": [],
+    "courses": [
+      {
+        "courseName": "Node JS",
+        "institution": "Udemy",
+        "workload": "40h",
+        "startDate": "",
+        "endDate": "2023-08-23T23:57:28.148Z"
+      },
+      {
+        "courseName": "React Native",
+        "institution": "Udemy",
+        "workload": "40h",
+        "startDate": "",
+        "endDate": "2023-08-31T22:05:47.396Z"
+      }
+    ],
+    "educational": [
+      {
+        "degree": "Graduação",
+        "course": "Análise E Desenvolvimento De Sistemas",
+        "institution": "Estácio",
+        "startDate": "2021-03-01T21:58:44.184Z",
+        "endDate": "2023-08-31T21:58:44.184Z",
+        "courseStatus": "Concluído",
+        "coursePeriod": "Não informar"
+      },
+      {
+        "degree": "Pós-Graduação",
+        "course": "Engenharia De Software",
+        "institution": "Estácio",
+        "startDate": "2023-08-31T21:59:37.250Z",
+        "endDate": "2024-08-31T21:59:37.250Z",
+        "courseStatus": "Cursando",
+        "coursePeriod": "Não informar"
+      }
+    ],
+    "experience": [
+      {
+        "title": "Quality Assurance",
+        "company": "Infarma Sistemas",
+        "employmentType": "Tempo integral",
+        "locality": "Fortaleza-CE",
+        "startDate": "2023-08-31T22:00:14.455Z",
+        "endDate": "2023-08-31T22:00:14.455Z",
+        "currentlyWork": true,
+        "workFormat": "Híbrido",
+        "description": "Suporte ao sistema Infarma Varejo.\nFerramentas de atendimento Movidesk, WhatsTicket e Voiqx.\nSuporte técni  co a erros do sistema, instalação e atualização.\nConfiguração e instalação de periféricos, MFE, impressora, PIN PAD, Terminal de  consulta.\r"
+      },
+      {
+        "title": "Analista De Suporte",
+        "company": "Infarma Sistemas",
+        "employmentType": "Tempo integral",
+        "locality": "Fortaleza-CE",
+        "startDate": "2021-11-01T22:01:11.339Z",
+        "endDate": "2023-04-30T22:01:11.339Z",
+        "currentlyWork": false,
+        "workFormat": "Híbrido",
+        "description": "Suporte ao sistema Infarma Varejo.\nFerramentas de atendimento Movidesk, WhatsTicket e Voiqx.\nSuporte técni  co a erros do sistema, instalação e atualização.\nConfiguração e instalação de periféricos, MFE, impressora, PIN PAD, Terminal de  consulta."
+      }
+    ],
+    "languages": [
+      {
+        "languageName": "Inglês",
+        "fluencyLevel": "Básico"
+      },
+      {
+        "languageName": "Espanhol",
+        "fluencyLevel": "Básico"
+      }
+    ],
+    "objective": "Estágio em desenvolvimento",
+    "personaldata": {
+      "name": "Jarde Felicio",
+      "email": "jardefelicio@infamra.com.br",
+      "phone": "85985029634",
+      "phoneSecundary": "85992626099",
+      "birthDate": "2023-08-01T14:45:05.004Z",
+      "city": "Fortaleza - CE"
+    },
+    "professionalqualifications": []
+  }

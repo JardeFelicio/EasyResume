@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import FormatString from "../services/FormatString";
+import Format from "../services/FormatString";
 
 const getExistingEducational = async () => {
   try {
@@ -31,7 +31,7 @@ export default {
         coursePeriod,
       } = educational;
 
-      const courseFormat = await FormatString(course);
+      const courseFormat = await Format.formatString(course);
 
       // Cria o objeto
       const newEducational = {

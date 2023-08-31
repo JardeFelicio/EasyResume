@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import FormatString from "../services/FormatString";
+import Format from "../services/FormatString";
 
 const getExistingQualifications = async () => {
   try {
@@ -24,7 +24,7 @@ export default {
   createQualification: async (professionalQualification) => {
     try {
       const { title, description } = professionalQualification;
-      const titleFormat = await FormatString(title);
+      const titleFormat = await Format.formatString(title);
 
       // Cria o objeto
       const newQualification = {

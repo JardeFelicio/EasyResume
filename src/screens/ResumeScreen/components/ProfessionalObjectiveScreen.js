@@ -9,7 +9,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../../utils/Colors";
 import Header from "../../../components/Header";
-import CustomTextArea from "../../../components/CustomTextArea";
 import CustomInput from "../../../components/CustomInput";
 import Footer from "../../../components/Footer";
 import Api from "../../../controllers/ProfessionalObjectiveController";

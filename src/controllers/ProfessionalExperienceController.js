@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import FormatString from "../services/FormatString";
+import Format from "../services/FormatString";
 
 const getExistingExperience = async () => {
   try {
@@ -11,7 +11,6 @@ const getExistingExperience = async () => {
       ? JSON.parse(existingExperiencelJSON)
       : [];
 
-    console.log("Controller: ", 14, existingExperience);
     return existingExperience;
   } catch (error) {
     console.log("Error: ", error);
@@ -22,7 +21,6 @@ const getExistingExperience = async () => {
 export default {
   createExperience: async (experience) => {
     try {
-      console.log("Controller create: ", 25, experience);
       const {
         title,
         company,
@@ -35,8 +33,8 @@ export default {
         description,
       } = experience;
 
-      const titleFormat = await FormatString(title);
-      const companyFormat = await FormatString(company);
+      const titleFormat = await Format.formatString(title);
+      const companyFormat = await Format.formatString(company);
 
       // Cria o objeto
       const newExperience = {
@@ -70,7 +68,6 @@ export default {
         existingExperience[existingIndex].currentlyWork = currentlyWork;
         existingExperience[existingIndex].workFormat = workFormat;
         existingExperience[existingIndex].description = description;
-        od;
       } else {
         existingExperience.push(newExperience);
       }
@@ -104,7 +101,6 @@ export default {
     try {
       //Recupera languages
       const { title, company } = experience;
-      console.log("Controller delete: ", 107, experience);
 
       const existingExperience = await getExistingExperience();
 

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
@@ -19,6 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../utils/Colors";
 import { MENU_ITEMS } from "../../utils/MenuItems";
 import Header from "../../components/Header";
+import Generate from "../../components/Generate";
 
 const ListItemOption = ({ textItem, iconItem, infoItem }) => {
   const navigation = useNavigation();
@@ -65,6 +67,15 @@ const ListItemOption = ({ textItem, iconItem, infoItem }) => {
   );
 };
 
+function renderItemList({ item }) {
+  return (
+    <ListItemOption
+      textItem={item.text}
+      iconItem={item.icon}
+      infoItem={item.info}
+    />
+  );
+}
 export function ResumeScreen() {
   const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
@@ -86,21 +97,17 @@ export function ResumeScreen() {
         <View style={styles.headerContainer}>
           <Header title={"Meu Currículo"} screenReplace={"HomeScreen"} />
         </View>
+
         <View style={styles.bodyContainer}>
           <FlatList
             data={MENU_ITEMS}
-            renderItem={({ item }) => (
-              <ListItemOption
-                textItem={item.text}
-                iconItem={item.icon}
-                infoItem={item.info}
-              />
-            )}
+            renderItem={renderItemList}
             keyExtractor={(item) => item.text}
             contentContainerStyle={styles.flatListBody}
             showsVerticalScrollIndicator={false}
           />
         </View>
+        <Generate />
       </SafeAreaView>
     );
   }
@@ -111,6 +118,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: Colors.white,
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerContainer: {
     height: 100,

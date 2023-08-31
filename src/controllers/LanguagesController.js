@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import FormatString from "../services/FormatString";
+import Format from "../services/FormatString";
 
 const getExistingLanguages = async () => {
   try {
@@ -21,7 +21,7 @@ const getExistingLanguages = async () => {
 export default {
   createLanguage: async (languageName, fluencyLevel) => {
     try {
-      const languageNameFormat = await FormatString(languageName);
+      const languageNameFormat = await Format.formatString(languageName);
 
       // Cria o objeto newLanguage
       const newLanguage = {
